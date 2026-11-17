@@ -7,23 +7,23 @@ const productController = (req: IncomingMessage, res: ServerResponse) => {
   const method = req.method;
 
   if (url === "/products" && method === "GET") {
-    const products = [
-      {
-        id: 1,
-        name: "Product-1",
-        price: 30,
-      },
+    // const products = [
+    //   {
+    //     id: 1,
+    //     name: "Product-1",
+    //     price: 30,
+    //   },
 
-      {
-        id: 2,
-        name: "Product-2",
-        price: 30,
-      },
-    ];
+    //   {
+    //     id: 2,
+    //     name: "Product-2",
+    //     price: 30,
+    //   },
+    // ];
 
-    productService();
+    const products = productService();
 
-    res.writeHead(200, { "content-type": "application/json" });
+    res.writeHead(200, { "Content-Type": "application/json" });
     res.end(
       JSON.stringify({ message: "Products are retireved", data: products }),
     );
