@@ -43,6 +43,6 @@
     "skipLibCheck": true
   },
 
-  "include": ["src/**/*.ts"],
+  "include": ["src/**/*.ts", "src/Services"],
   "exclude": ["node_modules", "dist"]
 }
