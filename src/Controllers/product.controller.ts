@@ -1,9 +1,10 @@
 import type { IncomingMessage, ServerResponse } from "http";
 import { url } from "inspector";
-import { productService } from "../Services/product.service";
+import { createProduct, productService } from "../Services/product.service";
 import type { IProduct } from "../Types/product";
+import { bodyParser } from "../Utils/bodyParse";
 
-const productController = (req: IncomingMessage, res: ServerResponse) => {
+const productController = async (req: IncomingMessage, res: ServerResponse) => {
   const url = req.url;
   const method = req.method;
   // console.log(url) -> /products/1
@@ -43,6 +44,32 @@ const productController = (req: IncomingMessage, res: ServerResponse) => {
     res.writeHead(200, { "Content-Type": "application/json" });
     res.end(
       JSON.stringify({ message: "Products are retireve", data: product }),
+    );
+  } else if (method === "POST" && url === "/products") {
+    //"abcd" = "a" , "b" , "c" = "abc"
+
+    const body = await bodyParser(req);
+    // console.log(body);
+
+    const newProduct = {
+      id: Date.now(),
+      ...body,
+    };
+
+    // console.log(newProduct);
+
+    const products = productService(); // [{} , {}]
+
+    products.push(newProduct); // [{},{},{new}]
+
+    createProduct(products);
+
+    res.writeHead(201, { "Content-Type": "application.json" });
+    res.end(
+      JSON.stringify({
+        message: "Prodcut created succefully",
+        data: newProduct,
+      }),
     );
   }
 };
