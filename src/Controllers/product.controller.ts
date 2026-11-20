@@ -38,14 +38,26 @@ const productController = async (req: IncomingMessage, res: ServerResponse) => {
     res.end(
       JSON.stringify({ message: "Products are retireved", data: products }),
     );
-  } else if (method === "GET" && id != null) {
+  }
+
+  //GetById product
+  else if (method === "GET" && id != null) {
     const products = productService();
     const product = products.find((p: IProduct) => p.id === id);
+
+    if (!product) {
+      res.writeHead(200, { "Content-Type": "application/json" });
+      res.end(JSON.stringify({ message: "Product not found" }));
+    }
+
     res.writeHead(200, { "Content-Type": "application/json" });
     res.end(
       JSON.stringify({ message: "Products are retireve", data: product }),
     );
-  } else if (method === "POST" && url === "/products") {
+  }
+
+  //Create Product
+  else if (method === "POST" && url === "/products") {
     //"abcd" = "a" , "b" , "c" = "abc"
 
     const body = await bodyParser(req);
@@ -71,7 +83,10 @@ const productController = async (req: IncomingMessage, res: ServerResponse) => {
         data: newProduct,
       }),
     );
-  } else if (method === "PUT" && id != null) {
+  }
+
+  //Update Product
+  else if (method === "PUT" && id != null) {
     const body = await bodyParser(req);
     const product = productService();
 
@@ -95,6 +110,29 @@ const productController = async (req: IncomingMessage, res: ServerResponse) => {
         data: product[index],
       }),
     );
+  }
+
+  //Delete Product
+  else if (method === "DELETE" && id != null) {
+    const product = productService();
+
+    const index = product.findIndex((p: IProduct) => p.id === id);
+
+    if (index < 0) {
+      res.writeHead(200, { "Content-Type": "application/json" });
+      res.end(JSON.stringify({ message: "Product not found" }));
+    }
+
+    // const arr = ["a", "b", "c"];
+    // console.log(arr.splice(2, 1));
+    // arr.splice(2, 1);
+    // console.log(arr);
+
+    product.splice(index, 1);
+    createProduct(product);
+
+    res.writeHead(200, { "Content-Type": "application/json" });
+    res.end(JSON.stringify({ message: "Product sucessfully deleted" }));
   }
 };
 
