@@ -1,1 +1,5 @@
-[{"id":2,"name":"Cristiano","price":440},{"id":1795094110417,"name":"Siuuuuu","price":650},{"id":1795094146762,"name":"Ronaldo","price":220}]
+[
+  { "id": 2, "name": "Cristiano", "price": 440 },
+  { "id": 1795094110417, "name": "Siuuuuu", "price": 650 },
+  { "id": 1795094146762, "name": "Ronaldo", "price": 220 }
+]
