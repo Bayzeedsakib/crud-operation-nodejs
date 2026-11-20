@@ -71,6 +71,30 @@ const productController = async (req: IncomingMessage, res: ServerResponse) => {
         data: newProduct,
       }),
     );
+  } else if (method === "PUT" && id != null) {
+    const body = await bodyParser(req);
+    const product = productService();
+
+    const index = product.findIndex((p: IProduct) => p.id === id);
+
+    // console.log(index);
+
+    if (index < 0) {
+      res.writeHead(404, { "Content-Type": "application/json" });
+      res.end(JSON.stringify({ message: "Product not found" }));
+    }
+
+    product[index] = { id: product[index].id, ...body };
+
+    createProduct(product);
+
+    res.writeHead(200, { "Content-Type": "application-json" });
+    res.end(
+      JSON.stringify({
+        message: "Product updated successfully",
+        data: product[index],
+      }),
+    );
   }
 };
 

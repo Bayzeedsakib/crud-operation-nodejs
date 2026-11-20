@@ -5,7 +5,7 @@ import type { IProduct } from "../Types/product";
 const filePath = path.join(process.cwd(), "./src/Database/db.json");
 
 export const productService = () => {
-  console.log({ filePath });
+  // console.log({ filePath });
 
   const result = fs.readFileSync(filePath, "utf-8");
   //   console.log(result.toString());
@@ -17,3 +17,7 @@ export const productService = () => {
 export const createProduct = (payload: IProduct[]) => {
   fs.writeFileSync(filePath, JSON.stringify(payload));
 };
+
+// export const updateProduct = (u: IProduct[id] ) => {
+
+// }
